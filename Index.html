@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Crumbs – Artisan Bakery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF6EF;
+    --cream-dark: #F2EBDf;
+    --beige: #E8D9C4;
+    --brown-light: #C4976A;
+    --brown: #9B6E45;
+    --brown-dark: #5C3D1E;
+    --pink-soft: #F5D6C8;
+    --pink: #E8A898;
+    --charcoal: #2C1A0E;
+    --text: #3D2314;
+    --text-muted: #8B6650;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 12px rgba(92,61,30,0.08);
+    --shadow-md: 0 8px 32px rgba(92,61,30,0.12);
+    --shadow-lg: 0 20px 60px rgba(92,61,30,0.18);
+    --radius: 16px;
+    --radius-lg: 24px;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--brown-light); border-radius: 3px; }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(250,246,239,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(196,151,106,0.15);
+    box-shadow: 0 2px 20px rgba(92,61,30,0.06);
+    transition: box-shadow 0.3s;
+  }
+  header.scrolled { box-shadow: 0 4px 30px rgba(92,61,30,0.12); }
+
+  nav {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 72px;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.75rem; font-weight: 600;
+    color: var(--brown-dark);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--brown-light); font-style: italic; }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 500;
+    color: var(--text-muted); text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1.5px; background: var(--brown-light);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--brown-dark); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border-radius: 50px;
+    font-family: var(--font-body); font-size: 0.875rem;
+    font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; border: none;
+    transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .btn-primary {
+    background: var(--brown-dark); color: var(--cream);
+    box-shadow: 0 4px 20px rgba(92,61,30,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--brown); transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(92,61,30,0.35);
+  }
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    border: 1.5px solid rgba(250,246,239,0.6);
+  }
+  .btn-outline:hover {
+    background: rgba(250,246,239,0.15); transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: rgba(250,246,239,0.12); color: var(--cream);
+    border: 1.5px solid rgba(250,246,239,0.3);
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    background: rgba(250,246,239,0.22); transform: translateY(-2px);
+  }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .hamburger span { width: 22px; height: 2px; background: var(--brown-dark); border-radius: 2px; transition: all 0.3s; display: block; }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    background:
+      linear-gradient(to bottom, rgba(44,26,14,0.45) 0%, rgba(44,26,14,0.3) 50%, rgba(44,26,14,0.65) 100%),
+      url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=85') center/cover no-repeat;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  #home::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(196,151,106,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 1280px; margin: 0 auto; padding: 0 32px;
+    padding-top: 96px;
+    animation: heroFadeUp 1.1s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(196,151,106,0.25); backdrop-filter: blur(12px);
+    border: 1px solid rgba(196,151,106,0.4);
+    padding: 8px 18px; border-radius: 50px;
+    color: var(--beige); font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: heroFadeUp 1.1s 0.1s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+  .hero-badge::before { content: '✦'; color: var(--brown-light); font-size: 0.65rem; }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-weight: 300; line-height: 1.08;
+    color: var(--white); letter-spacing: -0.01em;
+    max-width: 780px; margin-bottom: 24px;
+    animation: heroFadeUp 1.1s 0.2s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+  .hero-title em { color: var(--pink); font-style: italic; font-weight: 300; }
+
+  .hero-sub {
+    font-size: 1.1rem; font-weight: 300;
+    color: rgba(250,246,239,0.82);
+    max-width: 500px; margin-bottom: 48px;
+    line-height: 1.75;
+    animation: heroFadeUp 1.1s 0.35s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+
+  .hero-ctas {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    animation: heroFadeUp 1.1s 0.5s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(250,246,239,0.55); font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    animation: bounce 2.5s ease-in-out infinite;
+  }
+  .hero-scroll svg { opacity: 0.7; }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 32px; }
+  .container { max-width: 1280px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--brown-light);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before, .section-label::after {
+    content: ''; height: 1px; background: var(--brown-light); opacity: 0.4; flex: 0 0 30px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 300; line-height: 1.2;
+    color: var(--brown-dark); margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--text-muted);
+    max-width: 480px; font-weight: 300; line-height: 1.75;
+  }
+
+  /* ─── TRUST METRICS ─── */
+  #trust {
+    background: var(--brown-dark);
+    padding: 60px 32px;
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .trust-card {
+    padding: 40px 32px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(196,151,106,0.15);
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 12px;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .trust-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(196,151,106,0.1), transparent 70%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .trust-card:hover::before { opacity: 1; }
+  .trust-card:hover { background: rgba(255,255,255,0.07); }
+  .trust-icon {
+    width: 52px; height: 52px;
+    background: rgba(196,151,106,0.18);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 4px;
+    border: 1px solid rgba(196,151,106,0.25);
+  }
+  .trust-num {
+    font-family: var(--font-display);
+    font-size: 2.4rem; font-weight: 600;
+    color: var(--cream); line-height: 1;
+  }
+  .trust-num span { color: var(--brown-light); }
+  .trust-label {
+    font-size: 0.85rem; color: rgba(250,246,239,0.6);
+    font-weight: 400; letter-spacing: 0.03em;
+  }
+
+  /* ─── PRODUCTS ─── */
+  #menu { background: var(--cream); }
+  .products-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 56px; flex-wrap: wrap; gap: 24px;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s;
+    cursor: pointer;
+  }
+  .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+  .product-img {
+    width: 100%; height: 240px; object-fit: cover;
+    display: block; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .product-card:hover .product-img { transform: scale(1.06); }
+  .product-img-wrap { overflow: hidden; position: relative; }
+  .product-tag {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--brown-dark); color: var(--cream);
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 50px;
+  }
+  .product-body { padding: 24px; }
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem; font-weight: 600;
+    color: var(--brown-dark); margin-bottom: 8px;
+  }
+  .product-desc {
+    font-size: 0.875rem; color: var(--text-muted);
+    font-weight: 300; line-height: 1.65; margin-bottom: 20px;
+  }
+  .product-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .product-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem; font-weight: 600;
+    color: var(--brown);
+  }
+  .btn-sm {
+    padding: 8px 20px; font-size: 0.8rem;
+    background: var(--brown-dark); color: var(--cream);
+    border: none; border-radius: 50px; cursor: pointer;
+    font-family: var(--font-body); letter-spacing: 0.05em;
+    text-transform: uppercase; font-weight: 500;
+    transition: all 0.3s;
+  }
+  .btn-sm:hover { background: var(--brown); transform: scale(1.04); }
+
+  /* ─── TESTIMONIALS ─── */
+  #about { background: var(--cream-dark); }
+  .testimonials-header { text-align: center; margin-bottom: 56px; }
+  .testimonials-header .section-label { justify-content: center; }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .testi-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: transform 0.35s, box-shadow 0.35s;
+  }
+  .testi-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+  .testi-card::before {
+    content: '\201C';
+    font-family: var(--font-display);
+    font-size: 6rem; color: var(--pink-soft);
+    position: absolute; top: 16px; right: 28px;
+    line-height: 1; pointer-events: none;
+    font-weight: 600;
+  }
+  .testi-stars { color: var(--brown-light); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 3px; }
+  .testi-text {
+    font-size: 0.975rem; line-height: 1.8;
+    color: var(--text-muted); font-weight: 300;
+    margin-bottom: 28px; font-style: italic;
+    font-family: var(--font-display); font-size: 1.05rem;
+  }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--beige);
+  }
+  .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--brown-dark); }
+  .testi-role { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* ─── LOCATIONS ─── */
+  #locations { background: var(--cream); }
+  .locations-header { margin-bottom: 48px; }
+  .city-tabs {
+    display: flex; gap: 8px; margin-bottom: 48px; flex-wrap: wrap;
+  }
+  .city-tab {
+    padding: 10px 28px; border-radius: 50px;
+    font-size: 0.875rem; font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; border: 1.5px solid var(--beige);
+    background: transparent; color: var(--text-muted);
+    font-family: var(--font-body);
+    transition: all 0.3s;
+  }
+  .city-tab.active {
+    background: var(--brown-dark); color: var(--cream);
+    border-color: var(--brown-dark);
+    box-shadow: 0 4px 16px rgba(92,61,30,0.25);
+  }
+  .city-tab:not(.active):hover { border-color: var(--brown-light); color: var(--brown); }
+
+  .location-panel { display: none; }
+  .location-panel.active {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .location-info {
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .location-detail {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .location-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: var(--cream-dark); border: 1px solid var(--beige);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0; margin-top: 2px;
+  }
+  .location-detail h4 {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--brown-light); font-weight: 500; margin-bottom: 4px;
+  }
+  .location-detail p {
+    font-size: 0.925rem; color: var(--text-muted); line-height: 1.6;
+  }
+  .map-embed {
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow-md); height: 320px;
+    background: var(--cream-dark);
+    border: 1px solid var(--beige);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px; color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+  .map-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* ─── ORDER FORM ─── */
+  #contact {
+    background: var(--brown-dark);
+    position: relative; overflow: hidden;
+  }
+  #contact::before {
+    content: ''; position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(196,151,106,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #contact::after {
+    content: ''; position: absolute;
+    bottom: -150px; left: -150px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,168,152,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .form-wrap {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px;
+    align-items: center; position: relative; z-index: 1;
+  }
+  .form-intro .section-title { color: var(--cream); }
+  .form-intro .section-sub { color: rgba(250,246,239,0.6); }
+  .form-intro .section-label { color: var(--brown-light); }
+  .form-intro .section-label::before, .form-intro .section-label::after { background: var(--brown-light); }
+
+  .form-features { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+  .form-feat {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.9rem; color: rgba(250,246,239,0.7);
+  }
+  .form-feat::before {
+    content: '✓'; width: 24px; height: 24px;
+    background: rgba(196,151,106,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: var(--brown-light); flex-shrink: 0;
+    border: 1px solid rgba(196,151,106,0.3);
+  }
+
+  form {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(196,151,106,0.2);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    backdrop-filter: blur(12px);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(250,246,239,0.6); font-weight: 500;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(196,151,106,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--cream);
+    font-family: var(--font-body); font-size: 0.925rem;
+    transition: border-color 0.25s, background 0.25s;
+    outline: none;
+    width: 100%;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(250,246,239,0.3); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(196,151,106,0.6);
+    background: rgba(255,255,255,0.1);
+  }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group select option { background: var(--brown-dark); color: var(--cream); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--brown-light), var(--pink));
+    color: var(--white); border: none; border-radius: 12px;
+    font-family: var(--font-body); font-size: 0.925rem;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; margin-top: 8px;
+    transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    box-shadow: 0 4px 20px rgba(196,151,106,0.3);
+  }
+  .form-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(196,151,106,0.45);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--charcoal);
+    padding: 72px 32px 0;
+    color: rgba(250,246,239,0.65);
+  }
+  .footer-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(196,151,106,0.12);
+  }
+  .footer-brand .logo { display: inline-block; margin-bottom: 16px; color: var(--cream); }
+  .footer-brand .logo span { color: var(--brown-light); }
+  .footer-desc { font-size: 0.9rem; line-height: 1.75; color: rgba(250,246,239,0.5); max-width: 260px; }
+  .footer-socials { display: flex; gap: 12px; margin-top: 28px; }
+  .social-btn {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(196,151,106,0.15);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1rem;
+    transition: all 0.3s; color: rgba(250,246,239,0.7);
+  }
+  .social-btn:hover { background: rgba(196,151,106,0.2); color: var(--cream); transform: translateY(-3px); }
+  .footer-col h4 {
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--brown-light); font-weight: 500; margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a {
+    font-size: 0.9rem; color: rgba(250,246,239,0.5);
+    text-decoration: none; transition: color 0.25s;
+  }
+  .footer-col a:hover { color: var(--cream); }
+  .footer-hours p { font-size: 0.875rem; line-height: 1.8; color: rgba(250,246,239,0.5); }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    padding: 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: rgba(250,246,239,0.3);
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ─── FLOATING BUTTONS ─── */
+  .whatsapp-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+    text-decoration: none; font-size: 1.6rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: waBounce 3s ease-in-out infinite;
+  }
+  .whatsapp-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 10px 36px rgba(37,211,102,0.55);
+    animation: none;
+  }
+  @keyframes waBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .mobile-cta {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 998;
+    background: var(--brown-dark);
+    padding: 14px 24px;
+    box-shadow: 0 -4px 24px rgba(92,61,30,0.2);
+  }
+  .mobile-cta a {
+    display: block; text-align: center;
+    background: linear-gradient(135deg, var(--brown-light), var(--pink));
+    color: var(--white); text-decoration: none;
+    padding: 15px; border-radius: 12px;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 0.95rem;
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--brown-dark); color: var(--cream);
+    padding: 14px 28px; border-radius: 50px;
+    font-size: 0.9rem; opacity: 0; z-index: 9999;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    box-shadow: 0 8px 30px rgba(92,61,30,0.35);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── MOBILE MENU ─── */
+  .mobile-nav {
+    display: none; position: fixed; inset: 0; z-index: 1100;
+    background: var(--cream); flex-direction: column;
+    align-items: center; justify-content: center; gap: 36px;
+    animation: fadeIn 0.3s ease;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav-close {
+    position: absolute; top: 24px; right: 28px;
+    background: none; border: none; font-size: 1.8rem;
+    cursor: pointer; color: var(--brown-dark);
+  }
+  .mobile-nav a {
+    font-family: var(--font-display); font-size: 2.2rem;
+    color: var(--brown-dark); text-decoration: none; font-weight: 300;
+  }
+  .mobile-nav a:hover { color: var(--brown-light); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .form-wrap { grid-template-columns: 1fr; gap: 48px; }
+    .form-intro { text-align: center; }
+    .form-intro .section-label { justify-content: center; }
+    .form-features { align-items: center; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 72px 20px; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn { width: 100%; max-width: 320px; justify-content: center; }
+    .products-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .location-panel.active { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { text-align: center; justify-content: center; }
+    form { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .mobile-cta { display: block; }
+    .whatsapp-btn { bottom: 90px; }
+    .products-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header id="header">
+  <nav>
+    <a href="#home" class="logo">Velvet <span>Crumbs</span></a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#locations">Locations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta">Order Now</a>
+    <button class="hamburger" onclick="openMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="closeMenu()">✕</button>
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#menu" onclick="closeMenu()">Menu</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#locations" onclick="closeMenu()">Locations</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMenu()">Order Now</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="home">
+  <div class="hero-content">
+    <div class="hero-badge">Artisan Bakery Since 2015</div>
+    <h1 class="hero-title">Freshly Baked <em>Happiness,</em> Every Day</h1>
+    <p class="hero-sub">From artisan breads to celebration cakes, we bake with love using premium ingredients sourced from local farmers.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-primary">🛒 Order Now</a>
+      <a href="#menu" class="btn btn-outline">View Menu</a>
+      <a href="#contact" class="btn btn-ghost">🎂 Custom Cake Enquiry</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 0v20M1 13l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ─── TRUST METRICS ─── -->
+<section id="trust" style="padding:0;">
+  <div class="trust-grid">
+    <div class="trust-card reveal">
+      <div class="trust-icon">🏆</div>
+      <div class="trust-num">10<span>+</span></div>
+      <div class="trust-label">Years of Baking Excellence</div>
+    </div>
+    <div class="trust-card reveal reveal-delay-1">
+      <div class="trust-icon">😊</div>
+      <div class="trust-num">50k<span>+</span></div>
+      <div class="trust-label">Happy Customers</div>
+    </div>
+    <div class="trust-card reveal reveal-delay-2">
+      <div class="trust-icon">🌿</div>
+      <div class="trust-num">100<span>%</span></div>
+      <div class="trust-label">Fresh Ingredients</div>
+    </div>
+    <div class="trust-card reveal reveal-delay-3">
+      <div class="trust-icon">⚡</div>
+      <div class="trust-num">⟨2<span>h</span></div>
+      <div class="trust-label">Same-Day Delivery Available</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCTS ─── -->
+<section id="menu">
+  <div class="container">
+    <div class="products-header">
+      <div>
+        <div class="section-label reveal">Our Best Sellers</div>
+        <h2 class="section-title reveal">Baked Fresh, <em style="font-style:italic;font-family:var(--font-display)">Every Morning</em></h2>
+        <p class="section-sub reveal">Each item is crafted with care using only the finest ingredients. No shortcuts, no compromises.</p>
+      </div>
+      <a href="#menu" class="btn btn-primary reveal" style="background:var(--brown-dark);flex-shrink:0;">View Full Menu</a>
+    </div>
+    <div class="products-grid">
+      <div class="product-card reveal">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Chocolate Truffle Cake" class="product-img">
+          <span class="product-tag">Best Seller</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Chocolate Truffle Cake</div>
+          <div class="product-desc">Layers of moist dark chocolate sponge with velvety ganache and truffle filling.</div>
+          <div class="product-footer">
+            <span class="product-price">₹ 799</span>
+            <button class="btn-sm" onclick="showToast('Added to order!')">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80" alt="Butter Croissant" class="product-img">
+          <span class="product-tag">Fresh Daily</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Butter Croissant</div>
+          <div class="product-desc">Classic French-style with 72 layers of golden, flaky, hand-rolled butter pastry.</div>
+          <div class="product-footer">
+            <span class="product-price">₹ 120</span>
+            <button class="btn-sm" onclick="showToast('Added to order!')">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=600&q=80" alt="Red Velvet Cupcake" class="product-img">
+          <span class="product-tag">Fan Favourite</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Red Velvet Cupcake</div>
+          <div class="product-desc">Velvety red sponge topped with a generous swirl of cream cheese frosting.</div>
+          <div class="product-footer">
+            <span class="product-price">₹ 95</span>
+            <button class="btn-sm" onclick="showToast('Added to order!')">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&q=80" alt="Fresh Sandwich Bread" class="product-img">
+          <span class="product-tag">Artisan</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Fresh Sandwich Bread</div>
+          <div class="product-desc">Slow-fermented sourdough loaf with a crisp crust and wonderfully chewy crumb.</div>
+          <div class="product-footer">
+            <span class="product-price">₹ 199</span>
+            <button class="btn-sm" onclick="showToast('Added to order!')">Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section id="about">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="section-label reveal">What Our Customers Say</div>
+      <h2 class="section-title reveal">Loved by <em style="font-style:italic;font-family:var(--font-display)">Thousands</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The chocolate truffle cake made our wedding day perfect. Every guest was asking where it came from. Absolute perfection in every bite!</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop&q=80" alt="Priya S." class="testi-avatar">
+          <div>
+            <div class="testi-name">Priya Sharma</div>
+            <div class="testi-role">Wedding Customer, Bangalore</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I order croissants every Sunday morning. The flaky layers and buttery aroma are unmatched anywhere in the city. My family's favourite ritual!</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&q=80" alt="Arjun M." class="testi-avatar">
+          <div>
+            <div class="testi-name">Arjun Mehta</div>
+            <div class="testi-role">Regular Customer, Hyderabad</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Their custom birthday cakes are works of art. The team was so attentive to every detail and the delivery was right on time. Highly recommend!</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80" alt="Meena R." class="testi-avatar">
+          <div>
+            <div class="testi-name">Meena Raghavan</div>
+            <div class="testi-role">Repeat Customer, Chennai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOCATIONS ─── -->
+<section id="locations">
+  <div class="container">
+    <div class="locations-header">
+      <div class="section-label reveal">Find Us Near You</div>
+      <h2 class="section-title reveal">Our <em style="font-style:italic;font-family:var(--font-display)">Locations</em></h2>
+      <p class="section-sub reveal">Visit us in-store for the full bakery experience, or order online for delivery.</p>
+    </div>
+    <div class="city-tabs reveal">
+      <button class="city-tab active" onclick="switchCity('blr', this)">Bangalore</button>
+      <button class="city-tab" onclick="switchCity('hyd', this)">Hyderabad</button>
+      <button class="city-tab" onclick="switchCity('chn', this)">Chennai</button>
+    </div>
+
+    <!-- Bangalore -->
+    <div class="location-panel active" id="loc-blr">
+      <div class="location-info">
+        <div class="location-detail">
+          <div class="location-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>12, Lavelle Road, Near MG Road Metro,<br>Ashok Nagar, Bangalore – 560025</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">🕐</div>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>Monday – Friday: 7:00 AM – 9:00 PM<br>Saturday – Sunday: 7:00 AM – 10:00 PM</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+91 80 4567 8901</p>
+          </div>
+        </div>
+      </div>
+      <div class="map-embed">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0053887097!2d77.6094!3d12.9719!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae168d3a7a6a5b%3A0x8c3e4e1b6e7e6a5b!2sMG%20Road%2C%20Bengaluru!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <!-- Hyderabad -->
+    <div class="location-panel" id="loc-hyd">
+      <div class="location-info">
+        <div class="location-detail">
+          <div class="location-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>45, Jubilee Hills Road No. 36,<br>Near Apollo Hospital, Hyderabad – 500034</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">🕐</div>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>Monday – Friday: 7:30 AM – 9:00 PM<br>Saturday – Sunday: 7:00 AM – 10:30 PM</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+91 40 2345 6789</p>
+          </div>
+        </div>
+      </div>
+      <div class="map-embed">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.6!2d78.4072!3d17.4065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb977ae1a6513b%3A0x4e5e4c5e6a7e8b9c!2sJubilee%20Hills%2C%20Hyderabad!5e0!3m2!1sen!2sin!4v1234567891" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <!-- Chennai -->
+    <div class="location-panel" id="loc-chn">
+      <div class="location-info">
+        <div class="location-detail">
+          <div class="location-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>78, Cathedral Road, Gopalapuram,<br>Near Taj Club House, Chennai – 600086</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">🕐</div>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>Monday – Friday: 7:00 AM – 8:30 PM<br>Saturday – Sunday: 7:00 AM – 9:30 PM</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+91 44 3456 7890</p>
+          </div>
+        </div>
+      </div>
+      <div class="map-embed">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.9!2d80.2707!3d13.0543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ea4f7b6c0f%3A0x8e6f8a9b7c6d5e4f!2sCathedral%20Road%2C%20Chennai!5e0!3m2!1sen!2sin!4v1234567892" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ORDER FORM ─── -->
+<section id="contact">
+  <div class="container">
+    <div class="form-wrap">
+      <div class="form-intro reveal">
+        <div class="section-label">Place an Order</div>
+        <h2 class="section-title">Let's Bake Something <em style="font-style:italic;font-family:var(--font-display);">Special</em> For You</h2>
+        <p class="section-sub">Fill in your details and we'll get back to you within the hour to confirm your order.</p>
+        <div class="form-features">
+          <div class="form-feat">Free delivery on orders above ₹500</div>
+          <div class="form-feat">Custom cakes with 24h advance notice</div>
+          <div class="form-feat">Same-day delivery before 2 PM orders</div>
+          <div class="form-feat">100% fresh, no preservatives</div>
+        </div>
+      </div>
+
+      <form onsubmit="handleSubmit(event)" class="reveal reveal-delay-1">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Priya Sharma" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 98765 43210" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="priya@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Product / Cake Requirement</label>
+          <select required>
+            <option value="" disabled selected>Select a product or describe your need</option>
+            <option>Chocolate Truffle Cake</option>
+            <option>Butter Croissants (Pack)</option>
+            <option>Red Velvet Cupcakes</option>
+            <option>Fresh Sandwich Bread</option>
+            <option>Custom Birthday Cake</option>
+            <option>Custom Wedding Cake</option>
+            <option>Assorted Pastry Box</option>
+            <option>Other – I'll describe below</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Special Instructions</label>
+          <textarea placeholder="Any customisations, flavours, allergies, or special requests…"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Preferred Delivery Date</label>
+          <input type="date" required>
+        </div>
+        <button type="submit" class="form-submit">🎂 Place My Order →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="logo">Velvet <span>Crumbs</span></a>
+      <p class="footer-desc">Crafting moments of joy through the timeless art of artisan baking since 2015. Every loaf tells a story.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+        <a href="#" class="social-btn" aria-label="Facebook">👤</a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">💬</a>
+        <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#contact">Order Now</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+918045678901">+91 80 4567 8901</a></li>
+        <li><a href="mailto:hello@velvetcrumbs.in">hello@velvetcrumbs.in</a></li>
+        <li><a href="#">12 Lavelle Road, Bangalore</a></li>
+        <li><a href="#">45 Jubilee Hills, Hyderabad</a></li>
+        <li><a href="#">78 Cathedral Road, Chennai</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col footer-hours">
+      <h4>Business Hours</h4>
+      <p>
+        Monday – Friday<br>
+        7:00 AM – 9:00 PM<br><br>
+        Saturday – Sunday<br>
+        7:00 AM – 10:00 PM<br><br>
+        <strong style="color:rgba(250,246,239,0.7);">Delivery available<br>7 days a week</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 Velvet Crumbs Artisan Bakery. All rights reserved.</span>
+    <span>Made with ❤️ and a lot of butter</span>
+  </div>
+</footer>
+
+<!-- ─── FLOATING BUTTONS ─── -->
+<a href="https://wa.me/918045678901" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<div class="mobile-cta">
+  <a href="#contact">🛒 Order Now – Same Day Delivery</a>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // Header scroll effect
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // City tabs
+  function switchCity(city, btn) {
+    document.querySelectorAll('.city-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.location-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('loc-' + city).classList.add('active');
+  }
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    showToast('🎉 Order received! We\'ll call you shortly.');
+    e.target.reset();
+  }
+
+  // Toast
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // Mobile nav
+  function openMenu() { document.getElementById('mobileNav').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu() { document.getElementById('mobileNav').classList.remove('open'); document.body.style.overflow=''; }
+
+  // Smooth nav active state
+  const sections = document.querySelectorAll('section[id], footer');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--brown-dark)' : '';
+    });
+  });
+</script>
+</body>
+</html>
